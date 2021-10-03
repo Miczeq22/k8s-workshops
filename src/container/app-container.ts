@@ -1,9 +1,16 @@
 import { Server } from '@api/server';
+import { postgresQueryBuilder } from '@infrastructure/database/query-builder';
 import { Controller } from '@root/framework/api/controller';
 import { CommandBus } from '@root/framework/processing/command-bus';
 import { CommandHandler } from '@root/framework/processing/command-handler';
 import { QueryBus } from '@root/framework/processing/query-bus';
 import { QueryHandler } from '@root/framework/processing/query-handler';
+import { performTransactionalOperation } from '@root/framework/transactional-operation';
+import { AccountRegistrationController } from '@root/modules/platform-access/api/account-registration/account-registration.controller';
+import { RegisterNewAccountCommandHandler } from '@root/modules/platform-access/app/commands/register-new-account/register-new-account.command-handler';
+import { AccountRegistrationRepositoryImpl } from '@root/modules/platform-access/infrastructure/domain/account-registration/account-registration.repository';
+import { AccountEmailCheckerServiceImpl } from '@root/modules/shared-kernel/infrastructure/domain/account-email-checker/account-email-checker.service';
+import { PasswordHashProviderServiceImpl } from '@root/modules/shared-kernel/infrastructure/domain/password-hash-provider/password-hash-provider.service';
 import { logger } from '@tools/logger';
 import {
   asClass,
@@ -25,6 +32,10 @@ export const createAppContainer = async (): Promise<AwilixContainer> => {
     logger: asValue(logger),
     commandBus: asClass(CommandBus).singleton(),
     queryBus: asClass(QueryBus).singleton(),
+    accountEmailCheckerService: asClass(AccountEmailCheckerServiceImpl).singleton(),
+    passwordHashProviderService: asClass(PasswordHashProviderServiceImpl).singleton(),
+    performTransactionalOperation: asFunction(performTransactionalOperation).scoped(),
+    queryBuilder: asFunction(postgresQueryBuilder),
   });
 
   container.loadModules(
@@ -41,13 +52,17 @@ export const createAppContainer = async (): Promise<AwilixContainer> => {
   );
 
   container.register({
-    controllers: registerAsArray<Controller>([]),
+    controllers: registerAsArray<Controller>([asClass(AccountRegistrationController).singleton()]),
   });
 
-  container.register({});
+  container.register({
+    accountRegistrationRepository: asClass(AccountRegistrationRepositoryImpl).singleton(),
+  });
 
   container.register({
-    commandHandlers: registerAsArray<CommandHandler<any>>([]),
+    commandHandlers: registerAsArray<CommandHandler<any>>([
+      asClass(RegisterNewAccountCommandHandler).singleton(),
+    ]),
   });
 
   container.register({

@@ -2,6 +2,8 @@ import { NotFoundError } from '@errors/not-found.error';
 import { Controller } from '@root/framework/api/controller';
 import { Logger } from '@tools/logger';
 import express, { Application } from 'express';
+import * as swaggerUi from 'swagger-ui-express';
+import { swaggerDocs } from '@infrastructure/swagger/swagger';
 import { errorHandlerMiddleware } from './middlewares/error-handler/error-handler.middleware';
 
 interface Dependencies {
@@ -21,6 +23,12 @@ export class Server {
   }
 
   private initRoutes() {
+    this.app.get('/', (req, res) => {
+      res.redirect(308, `${req.baseUrl}/api-docs`);
+    });
+
+    this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
     this.dependencies.controllers.forEach((controller) =>
       this.app.use(controller.route, controller.getRouter()),
     );

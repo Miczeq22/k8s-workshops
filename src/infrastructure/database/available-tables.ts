@@ -1,1 +1,3 @@
-export enum AvailableDatabaseTable {}
+export enum AvailableDatabaseTable {
+  AccountRegistration = 'public.account',
+}

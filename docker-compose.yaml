@@ -23,18 +23,5 @@ services:
     networks:
       - data
 
-  rabbit-mq:
-    image: rabbitmq:3.8.1-management
-    container_name: rabbit-mq
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    expose:
-      - "5672"
-      - "15672"
-    restart: always
-    networks: 
-    - data
-
 networks: 
     data:
