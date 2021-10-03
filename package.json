@@ -1,0 +1,103 @@
+{
+  "name": "platforms-service",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "NODE_ENV=development nodemon --watch \"src/**/*.ts\" --exec \"ts-node -r tsconfig-paths/register\" ./src/index.ts",
+    "test": "NODE_ENV=test jest --config ./jest.config.js",
+    "test:watch": "NODE_ENV=test jest --config ./jest.config.js --watch",
+    "test:ci": "NODE_ENV=test docker-compose up -d postgres && jest --config ./jest.config.js --ci --coverage --runInBand --forceExit",
+    "lint": "eslint --ext .ts \"src/**/*\"",
+    "format": "prettier --write \"src/**/*\"",
+    "build": "tsc -p tsconfig.build.json",
+    "migration": "knex migrate:latest",
+    "seed": "knex seed:run",
+    "release": "release-it"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Miczeq22/krater-api.git"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick && lint-staged"
+    }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Miczeq22/krater-api/issues"
+  },
+  "_moduleAliases": {
+    "@root": "dist",
+    "@api": "dist/api",
+    "@app": "dist/app",
+    "@infrastructure": "dist/infrastructure",
+    "@tools": "dist/tools",
+    "@errors": "dist/errors",
+    "@core": "dist/core",
+    "@tests": "dist/tests"
+  },
+  "homepage": "https://github.com/Miczeq22/krater-api#readme",
+  "devDependencies": {
+    "@types/bcrypt": "5.0.0",
+    "@types/cors": "2.8.12",
+    "@types/express": "4.17.13",
+    "@types/express-enforces-ssl": "1.1.1",
+    "@types/faker": "5.5.8",
+    "@types/glob": "7.1.4",
+    "@types/handlebars": "4.1.0",
+    "@types/helmet": "0.0.37",
+    "@types/hpp": "0.2.2",
+    "@types/jest": "27.0.1",
+    "@types/jsonwebtoken": "8.5.4",
+    "@types/knex": "0.16.1",
+    "@types/nodemailer": "6.4.4",
+    "@types/rascal": "10.0.4",
+    "@types/supertest": "2.0.11",
+    "@types/uuid": "8.3.1",
+    "@types/winston": "2.4.4",
+    "@typescript-eslint/eslint-plugin": "4.29.1",
+    "@typescript-eslint/parser": "4.29.1",
+    "eslint": "7.32.0",
+    "eslint-config-airbnb-typescript": "12.3.1",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-import": "2.24.0",
+    "eslint-plugin-prettier": "3.4.0",
+    "eslint-plugin-unicorn": "35.0.0",
+    "faker": "5.5.3",
+    "husky": "7.0.1",
+    "jest": "27.0.6",
+    "lint-staged": "11.1.2",
+    "nodemon": "2.0.12",
+    "prettier": "2.3.2",
+    "pretty-quick": "3.1.1",
+    "release-it": "14.11.5",
+    "ts-jest": "27.0.4",
+    "ts-node": "10.2.0",
+    "tsconfig-paths": "3.10.1",
+    "typescript": "4.3.5"
+  },
+  "dependencies": {
+    "awilix": "5.0.0",
+    "bcrypt": "5.0.1",
+    "celebrate": "15.0.0",
+    "cors": "2.8.5",
+    "dotenv": "10.0.0",
+    "express": "4.17.1",
+    "express-enforces-ssl": "1.1.0",
+    "helmet": "3.23.3",
+    "hpp": "0.2.3",
+    "jsonwebtoken": "8.5.1",
+    "knex": "0.21.21",
+    "module-alias": "2.2.2",
+    "pg": "8.7.1",
+    "supertest": "6.1.5",
+    "swagger-express-ts": "1.1.0",
+    "swagger-ui-dist": "*",
+    "uuid": "8.3.2",
+    "winston": "3.3.3"
+  }
+}
