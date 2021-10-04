@@ -50,7 +50,7 @@ export const registerNewAccountActionValidation = celebrate(
  *                example: Doe
  *     responses:
  *       201:
- *        description: Founder account created
+ *        description: Account created succesfuly
  *       422:
  *        description: Validation Error
  *       400:

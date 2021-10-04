@@ -9,12 +9,17 @@ if (process.env.NODE_ENV === 'production') {
 import { Logger } from '@tools/logger';
 import { Application } from 'express';
 import { createAppContainer } from './container/app-container';
+import { DomainSubscriber } from './framework/ddd-building-blocks/domain-subscriber';
 
 (async () => {
   const container = await createAppContainer();
 
   const app = container.resolve<Application>('app');
   const logger = container.resolve<Logger>('logger');
+
+  const subscribers = container.resolve<DomainSubscriber<any>[]>('subscribers');
+
+  subscribers.forEach((subscriber) => subscriber.setup());
 
   const port = process.env.PORT;
 
