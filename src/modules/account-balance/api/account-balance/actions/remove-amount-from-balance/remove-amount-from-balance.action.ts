@@ -1,5 +1,5 @@
 import { CommandBus } from '@root/framework/processing/command-bus';
-import { AddAmountToBalanceCommand } from '@root/modules/account-balance/app/commands/add-amount-to-balance/add-amount-to-balance.command';
+import { RemoveAmountFromBalanceCommand } from '@root/modules/account-balance/app/commands/remove-amount-from-balance/remove-amount-from-balance.command';
 import { celebrate, Joi, Segments } from 'celebrate';
 import { RequestHandler } from 'express';
 
@@ -7,7 +7,7 @@ interface Dependencies {
   commandBus: CommandBus;
 }
 
-export const addAmountToBalanceActionValidation = celebrate(
+export const removeAmountFromBalanceActionValidation = celebrate(
   {
     [Segments.BODY]: Joi.object().keys({
       amount: Joi.number().integer().required(),
@@ -25,12 +25,12 @@ export const addAmountToBalanceActionValidation = celebrate(
  * @swagger
  *
  * /balances/{accountId}:
- *   post:
+ *   delete:
  *     tags:
  *       - Account Balances
  *     security:
  *       - bearerAuth: []
- *     summary: Add Amount to Account Balance
+ *     summary: Remove Amount from Account Balance
  *     parameters:
  *      - in: path
  *        name: accountId
@@ -49,7 +49,7 @@ export const addAmountToBalanceActionValidation = celebrate(
  *                example: 100
  *     responses:
  *       200:
- *        description: Amount added succesfuly
+ *        description: Amount removed succesfuly
  *       404:
  *        description: Account Balance does not exist
  *       422:
@@ -59,12 +59,12 @@ export const addAmountToBalanceActionValidation = celebrate(
  *       500:
  *         description: Internal Server Error
  */
-const addAmountToBalanceAction =
+const removeAmountFromBalanceAction =
   ({ commandBus }: Dependencies): RequestHandler =>
   (req, res, next) =>
     commandBus
       .handle(
-        new AddAmountToBalanceCommand({
+        new RemoveAmountFromBalanceCommand({
           accountId: req.params.id,
           amount: req.body.amount,
         }),
@@ -72,4 +72,4 @@ const addAmountToBalanceAction =
       .then((balance) => res.status(200).json(balance))
       .catch(next);
 
-export default addAmountToBalanceAction;
+export default removeAmountFromBalanceAction;
