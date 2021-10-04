@@ -18,6 +18,7 @@ import { NewAccountRegisteredSubscriber } from '@root/modules/platform-access/ap
 import { AccountRegistrationRepositoryImpl } from '@root/modules/platform-access/infrastructure/domain/account-registration/account-registration.repository';
 import { AccountEmailCheckerServiceImpl } from '@root/modules/shared-kernel/infrastructure/domain/account-email-checker/account-email-checker.service';
 import { PasswordHashProviderServiceImpl } from '@root/modules/shared-kernel/infrastructure/domain/password-hash-provider/password-hash-provider.service';
+import { SystemController } from '@root/modules/system/api/system.controller';
 import { logger } from '@tools/logger';
 import {
   asClass,
@@ -62,6 +63,7 @@ export const createAppContainer = async (): Promise<AwilixContainer> => {
     controllers: registerAsArray<Controller>([
       asClass(AccountRegistrationController).singleton(),
       asClass(AccountBalanceController).singleton(),
+      asClass(SystemController).singleton(),
     ]),
   });
 
