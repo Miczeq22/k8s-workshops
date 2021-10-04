@@ -1,4 +1,4 @@
-import { AccountBalance } from '../account-balance/core/account-balance/account-balance.aggregate-root';
+import { AccountBalance } from '../core/account-balance/account-balance.aggregate-root';
 
 export interface AccountBalanceDTO {
   id: string;

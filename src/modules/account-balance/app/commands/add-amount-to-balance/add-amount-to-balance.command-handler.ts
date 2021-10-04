@@ -2,7 +2,7 @@ import { NotFoundError } from '@errors/not-found.error';
 import { CommandHandler } from '@root/framework/processing/command-handler';
 import { TransactionalOperation } from '@root/framework/transactional-operation';
 import { AccountBalanceRepository } from '@root/modules/account-balance/core/account-balance/account-balance.repository';
-import { accountBalanceToAccountBalanceDTO } from '@root/modules/dtos/account-balance.dto';
+import { accountBalanceToAccountBalanceDTO } from '@root/modules/account-balance/dtos/account-balance.dto';
 import {
   AddAmountToBalanceCommand,
   ADD_AMOUNT_TO_BALANCE_COMMAND,

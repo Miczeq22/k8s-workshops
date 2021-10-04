@@ -10,6 +10,7 @@ import { performTransactionalOperation } from '@root/framework/transactional-ope
 import { AccountBalanceController } from '@root/modules/account-balance/api/account-balance/account-balance.controller';
 import { AddAmountToBalanceCommandHandler } from '@root/modules/account-balance/app/commands/add-amount-to-balance/add-amount-to-balance.command-handler';
 import { RemoveAmountFromBalanceCommandHandler } from '@root/modules/account-balance/app/commands/remove-amount-from-balance/remove-amount-from-balance.command-handler';
+import { GetAccountBalanceQueryHandler } from '@root/modules/account-balance/app/queries/get-account-balance/get-account-balance.query-handler';
 import { AccountBalanceRepositoryImpl } from '@root/modules/account-balance/infrastructure/domain/account-balance/account-balance.repository';
 import { AccountRegistrationController } from '@root/modules/platform-access/api/account-registration/account-registration.controller';
 import { RegisterNewAccountCommandHandler } from '@root/modules/platform-access/app/commands/register-new-account/register-new-account.command-handler';
@@ -78,7 +79,9 @@ export const createAppContainer = async (): Promise<AwilixContainer> => {
   });
 
   container.register({
-    queryHandlers: registerAsArray<QueryHandler<any, any>>([]),
+    queryHandlers: registerAsArray<QueryHandler<any, any>>([
+      asClass(GetAccountBalanceQueryHandler).singleton(),
+    ]),
   });
 
   container.register({
