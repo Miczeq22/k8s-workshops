@@ -3,6 +3,7 @@ import { RequestHandler, Router } from 'express';
 
 interface Dependencies {
   getSystemHealthAction: RequestHandler;
+  getCurrentHostnameAction: RequestHandler;
 }
 
 export class SystemController extends Controller {
@@ -14,6 +15,8 @@ export class SystemController extends Controller {
     const router = Router();
 
     router.get('/health', [this.dependencies.getSystemHealthAction]);
+
+    router.get('/hostname', [this.dependencies.getCurrentHostnameAction]);
 
     return router;
   }
